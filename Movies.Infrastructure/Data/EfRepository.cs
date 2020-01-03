@@ -19,19 +19,19 @@ namespace Movies.Infrastructure.Data
 
         public T GetById<T>(int id) where T : BaseEntity
         {
-            return _dbContext.Set<T>().SingleOrDefault(e => e. Id == id);
+            return _dbContext.Set<T>().AsNoTracking().SingleOrDefault(e => e. Id == id);
         }
 
         public List<T> List<T>() where T : BaseEntity
         {
-            return _dbContext.Set<T>().ToList();
+            return _dbContext.Set<T>().AsNoTracking().ToList();
         }
 
         public T Add<T>(T entity) where T : BaseEntity
         {
             _dbContext.Set<T>().Add(entity);
             _dbContext.SaveChanges();
-
+            
             return entity;
         }
 

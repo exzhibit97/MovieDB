@@ -1,0 +1,48 @@
+﻿@*@model IEnumerable<MovieAvgRating>*@
+@model IEnumerable<Movies.Domain.Models.Movie>
+@using Movies.Web.Models
+@using Movies.Domain.Models
+@using Movies.Infrastructure.Data
+@using Microsoft.AspNetCore.Identity
+@using Movies.Web.ViewModels.DomainRelated
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject MoviesDbContext context
+
+@{
+
+}
+
+<h2>Reviews</h2>
+
+<div class="comments-container">
+    <div class="row comment-main-level">
+        @foreach (var item in Model)
+        {
+            var posterPath = "/images/" + (item.PosterPath ?? "poster-placeholder.png");
+            //var comments = item.Reviews.Count();
+            //using (var context = new MoviesDbContext())
+
+            var movie = context.Movies
+                .Single(m => m.Id == item.Id);
+
+            var reviewsCount = context.Entry(movie)
+                .Collection(m => m.Reviews)
+                .Query()
+                .Count();
+
+
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <a asp-action="Details" asp-controller="Movies" asp-route-id=@item.Id>@Html.DisplayFor(modelItem => item.Title) (@Html.DisplayFor(modelItem => item.Year))</a>
+                </div>
+            </div>
+            <div class="poster"><img class="poster" src="@posterPath" /></div>
+
+        </div>
+
+        }
+    </div>
+</div>

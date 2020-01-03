@@ -1,51 +1,74 @@
 ﻿@model Movies.Web.Models.MovieDTO
+@*@model Movies.Web.ViewModels.DomainRelated.MovieReviewVieModel*@
+@using Movies.Infrastructure.Data
+@inject MoviesDbContext context
 
 @{
     ViewData["Title"] = "Details";
+    var posterPath = "/images/" + (this.Model.PosterPath ?? "poster-placeholder.png");
 }
 
-<h1>Details</h1>
 
+<h4>@Html.DisplayFor(model => model.Title)</h4>
+
+<div class="container movieCard col-md-12">
+    <div class="row">
+        <div class="poster col-md-3">
+            <img class="poster" src="@posterPath" />
+        </div>
+        <div class="info col-md-9">
+            <div class="row">
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-left my-auto">
+                    <div class="row">
+                        <div class="col-md-12 genre">
+                            <span class="details-span">Reviews:</span>@{
+                                var movie = context.Movies
+                                    .Single(m => m.Id == Model.Id);
+
+                                var reviewsCount = context.Entry(movie)
+                                    .Collection(m => m.Reviews)
+                                    .Query()
+                                    .Count();
+                                <a class="details-text">@Html.DisplayFor(model => reviewsCount)</a>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="details-span">Runtime:</span>
+                            <a class="details-text">@Html.DisplayFor(model => model.Runtime)</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="details-span">Year of premiere:</span>
+                            <a class="details-text">@Html.DisplayFor(model => model.Year)</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-left">
+                    <span class="details-span">Plot:</span>
+                    <a class="details-text">@Html.DisplayFor(model => model.Description)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    @await Html.PartialAsync("Partials/_ReviewForm", new Movies.Web.Models.ReviewDTO(), new ViewDataDictionary(this.ViewData) { { "movieid", Model.Id } })
+}
+else
+{
+    <div><h1>Log in to comment and rate!</h1></div>
+}
 <div>
-    <h4>Movie</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Runtime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Runtime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PosterPath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PosterPath)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
+    @await Component.InvokeAsync("ReviewsList", new { movieID = Model.Id })
 </div>
 
-<div>
-
-</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

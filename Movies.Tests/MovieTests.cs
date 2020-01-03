@@ -58,7 +58,7 @@ namespace Movies.Tests
             var review = new Review();
 
             //Act
-            var ex2 = Assert.Throws<InvalidOperationException>(() => movie.DeleteReview(movie.Reviews.First().ReviewId));
+            var ex2 = Assert.Throws<InvalidOperationException>(() => movie.DeleteReview(movie.Reviews.First().Id));
 
             //Assert
             Assert.Equal("Sequence contains no elements", ex2.Message);

@@ -1,4 +1,61 @@
-﻿@model Movies.Web.Models.MovieDTO
+﻿@*@model Movies.Web.Models.MovieDTO
+
+    @{
+        ViewData["Title"] = "Create";
+    }
+
+    <h1>Create</h1>
+
+    <h4>Movie</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Runtime" class="control-label"></label>
+                    <input asp-for="Runtime" class="form-control" />
+                    <span asp-validation-for="Runtime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Year" class="control-label"></label>
+                    <input asp-for="Year" class="form-control" />
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PosterPath" class="control-label"></label>
+                    <input asp-for="PosterPath" class="form-control" />
+                    <span asp-validation-for="PosterPath" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@
+
+
+@model Movies.Web.ViewModels.MovieCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,44 +67,70 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form enctype="multipart/form-data" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group row">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group row">
                 <label asp-for="Runtime" class="control-label"></label>
                 <input asp-for="Runtime" class="form-control" />
                 <span asp-validation-for="Runtime" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group row">
                 <label asp-for="Year" class="control-label"></label>
                 <input asp-for="Year" class="form-control" />
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PosterPath" class="control-label"></label>
-                <input asp-for="PosterPath" class="form-control" />
-                <span asp-validation-for="PosterPath" class="text-danger"></span>
+            <div class="form-group row">
+                <label asp-for="Poster" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Poster" class="form-control custom-file-input" id="poster-input" />
+                    <label asp-for="Poster" class="custom-file-label">Choose image...</label>
+                </div>
+                @*<span asp-validation-for="Poster" class="text-danger"></span>*@
             </div>
-            <div class="form-group">
+            <div class="form-group row">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group row">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            <script type="text/javascript">
+                //$(document).ready(function () {
+                //    $('#poster-input').on('change', function () {
+                //        var fileName = $(this).val().split("\\").pop();
+                //        $(this).next('.custom-file-label').html(fileName);
+                //    });
+                //}
+                $(document).on('change', '.custom-file-input', function (event) {
+                    $(this).next('.custom-file-label').html(event.target.files[0].name);
+                });
+            </script>
+            @section Scripts {
+                <script>
+                    $(document).on('change', '.custom-file-input', function (event) {
+                        $(this).next('.custom-file-label').html(event.target.files[0].name);
+                    });
+                </script>
+
+            }
+
         </form>
     </div>
 </div>
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+@*@section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial")}
+    }*@

@@ -2,9 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>8f940a45-1a74-48cc-aa72-061467d69523</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\ApplicationDbContext.cs" />
+    <Compile Remove="ViewModels\ApplicationUser.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
@@ -18,6 +26,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Movies.Infrastructure\Movies.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\ViewServices\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
 

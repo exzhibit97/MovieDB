@@ -7,7 +7,7 @@ namespace Movies.Domain.Models
 {
     public class Movie : BaseEntity
     {
-        public new int Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public int Runtime { get; set; }
         public int Year { get; set; }
@@ -43,7 +43,7 @@ namespace Movies.Domain.Models
 
         public void DeleteReview(int id)
         {
-            var reviewToDelete = Reviews.Find(r => r.ReviewId == id);
+            var reviewToDelete = Reviews.Find(r => r.Id == id);
             Reviews.Remove(reviewToDelete);
         }
 

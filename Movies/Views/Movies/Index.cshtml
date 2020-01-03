@@ -4,56 +4,93 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="row justify-content-center">
+    <div class="col-md-12 text-center"><h2>Movies</h2></div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="row justify-content-center search-box">
+            <p>
+                <a asp-action="Create">Create New</a>
+            </p>
+        </div>
+    }
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row justify-content-center search-box">
+        Find by title: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </div>
+}
+
+<table class="table table-responsive">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Runtime)
+                @*@Html.DisplayNameFor(model => model.Title)k*@
+                @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.NameSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
+                @*@Html.DisplayNameFor(model => model.Runtime)*@
+                @Html.ActionLink("Runtime", "Index", new { sortOrder = ViewBag.RuntimeSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PosterPath)
+                @*@Html.DisplayNameFor(model => model.Year)*@
+                @Html.ActionLink("Year", "Index", new { sortOrder = ViewBag.YearSortParm })
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Administracja</th>
+                }
+            }
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Runtime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PosterPath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            var posterPath = "/images/" + (item.PosterPath ?? "poster-placeholder.png");
+            <tr>
+                <td rowspan="2" class="posterHeader">
+                    @*<img class="poster" src="~/images/@Html.DisplayFor(modelItem => item.PosterPath)" />*@
+                    <img class="poster" src="@posterPath" />
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id=@item.Id>@Html.DisplayFor(modelItem => item.Title)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Runtime)<span>min</span>
+                </td>
+                <td>
+                    <span class=""><i class="far fa-calendar-check"></i></span>@Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit |</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details |</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    }
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
