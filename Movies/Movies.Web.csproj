@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Prerequisities\" />
     <Folder Include="Services\ViewServices\" />
     <Folder Include="wwwroot\reports\" />
     <Folder Include="wwwroot\PDFStorage\" />
