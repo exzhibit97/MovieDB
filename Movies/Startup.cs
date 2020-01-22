@@ -12,6 +12,12 @@ using Movies.Services;
 using Movies.Shared.Interfaces;
 using System;
 using System.Threading.Tasks;
+using Rotativa;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Hangfire;
+using System.IO;
+using Movies.Web.Controllers;
+using Rotativa.AspNetCore;
 
 namespace Movies
 {
@@ -27,6 +33,10 @@ namespace Movies
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHangfire(Configuration =>
+            {
+                Configuration.UseSqlServerStorage("Server=(localdb)\\mssqllocaldb;Database=MovieContext;Trusted_Connection=True;MultipleActiveResultSets=true");
+            });
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -38,7 +48,8 @@ namespace Movies
             services.AddControllersWithViews();
 
             services.AddDbContext<MoviesDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MovieContext")));
+                //options.UseSqlServer(Configuration.GetConnectionString("MovieContext")));
+                options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MovieContext;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
             services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole>()
@@ -56,11 +67,18 @@ namespace Movies
             services.AddTransient<IRepository, EfRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env2, IWebHostEnvironment env, IServiceProvider serviceProvider, IRepository repository)
         {
+            
+            //MoviesController obj = new MoviesController(repository, env);
+            
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
+            //RecurringJob.AddOrUpdate(() => obj.MoviesToPdf(), Cron.Minutely);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -88,7 +106,10 @@ namespace Movies
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            CreateRoles(serviceProvider).Wait();
+            //RotativaConfiguration.Setup(env2, env2.WebRootPath+"\\Rotativa");
+            
+            //CreateRoles(serviceProvider).Wait();
+            //RecurringJob.AddOrUpdate(() => obj.MoviesToPdf2(), Cron.Minutely);
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)

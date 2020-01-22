@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Movies.Domain.Models;
 using Movies.Infrastructure.Data;
 using Movies.Shared.Interfaces;
 using Movies.Web.Models;
+using Movies.Domain.Models;
 
 namespace Movies.Web.Controllers
 {
@@ -89,7 +85,7 @@ namespace Movies.Web.Controllers
                 return RedirectToAction("Details", "Movies", new { id = review.MovieId });
             }
 
-            return StatusCode(404);
+            return RedirectToAction("Details", "Movies", new { id = review.MovieId });
         }
     }
 }

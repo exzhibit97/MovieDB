@@ -14,16 +14,18 @@ namespace Movies.Domain.Models
         public string PosterPath { get; set; }
         public string Description { get; set; }
 
+        public decimal Price { get; set; }
+
         public List<Review> Reviews { get; set; }
 
-        public Movie(int movieId, string title, int runtime, int year, string posterPath, string description, List<Review> reviews)
+        public Movie(string title, int runtime, int year, string posterPath, string description, decimal price, List<Review> reviews)
         {
-            Id = movieId;
             Title = title;
             Runtime = runtime;
             Year = year;
             PosterPath = posterPath;
             Description = description;
+            Price = price;
             Reviews = reviews;
         }
 
@@ -31,10 +33,11 @@ namespace Movies.Domain.Models
         {
             Reviews = new List<Review>();
         }
+               
 
         public void AddReview(Review review)
         {
-            if(review == null)
+            if (review == null)
             {
                 throw new ArgumentNullException();
             }
@@ -47,11 +50,23 @@ namespace Movies.Domain.Models
             Reviews.Remove(reviewToDelete);
         }
 
+        public void SetPrice(decimal price)
+        {
+            if (price < 0)
+            {
+                throw new ArgumentException();
+            }
+            this.Price = price;
+        }
+
+
         public IEnumerable<Review> GetReviews() => Reviews;
 
-        public void SetRuntime(int newRuntime)
+        //added 01.05.2020
+        public void SetDiscount(decimal discountRate)
         {
-            Runtime = newRuntime;
+            decimal discount = (discountRate / 100) * this.Price;
+            this.Price -= discount;
         }
 
         protected bool Equals(Movie other)
@@ -64,7 +79,7 @@ namespace Movies.Domain.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Movie) obj);
+            return Equals((Movie)obj);
         }
 
         public override int GetHashCode()

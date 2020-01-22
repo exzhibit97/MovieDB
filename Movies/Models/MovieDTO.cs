@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Movies.Domain.Models;
+using Movies.Shared;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Movies.Domain.Models;
 
 namespace Movies.Web.Models
 {
-    public class MovieDTO
+    public class MovieDTO : BaseEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }

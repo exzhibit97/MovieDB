@@ -1,16 +1,16 @@
 ﻿using Movies.Domain.Models;
 using Movies.Infrastructure.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Movies.Web.Models
 {
     public class ReviewDTO
     {
         public int Id { get; set; }
+        [StringLength(400, MinimumLength = 0)]
         public string Content { get; set; }
+        [Range(0, 10)]
         public int Rating { get; set; }
         public DateTime PostedOn { get; set; } = DateTime.Now;
         public int MovieId { get; set; }

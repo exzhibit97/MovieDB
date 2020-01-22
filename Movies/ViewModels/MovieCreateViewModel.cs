@@ -1,20 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Movies.Domain.Models;
-using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Movies.Web.ViewModels
 {
     public class MovieCreateViewModel
     {
         public int Id { get; set; }
+        [StringLength(60, MinimumLength = 1)]
+        [Required]
         public string Title { get; set; }
+        [Range(1, 9999)]
+        [Required]
         public int Runtime { get; set; }
+        [Range(1900, 2030)]
+        [Required]
         public int Year { get; set; }
         public IFormFile Poster { get; set; }
+        [StringLength(300, MinimumLength = 1)]
+        [Required]
         public string Description { get; set; }
 
         public static MovieCreateViewModel FromMovie(Movie movie)

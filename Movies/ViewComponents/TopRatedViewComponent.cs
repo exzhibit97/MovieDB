@@ -21,16 +21,14 @@ namespace Movies.Web.ViewComponents
         }
 
         public IViewComponentResult Invoke()
-        {
-            //var movies = _repository.List<Movie>();
+        {            
             var movies = _context.Movies
                 .Include(m => m.Reviews)
                 .OrderByDescending(m => m.Reviews.Count)
                 .Take(3)
                 .ToList();
+
             return View(movies);
-
         }
-
     }
 }

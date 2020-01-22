@@ -19,7 +19,7 @@
                 <center><div id="value"></div></center>
             </div>
             <div class="form-group">
-                <input asp-for="Rating" type="range" class="form-control-range slider" min="0" max="10" step="1" value="5" id="slider">
+                <input asp-for="Rating" type="range" id="slider" class="form-control-range slider" min="0" max="10" step="1" value="5" id="slider">
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
 
@@ -29,7 +29,7 @@
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary btn-commit" />
+                <input type="submit" value="Add review" id ="addReview" class="btn btn-primary btn-commit" />
             </div>
             <script type="text/javascript">
                 var slider = document.getElementById("slider");

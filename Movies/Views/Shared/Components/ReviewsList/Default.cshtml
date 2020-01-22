@@ -6,26 +6,34 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 
-@{ 
+@{
     var reviews = this.Model.Count();
 }
-<h2>Reviews</h2>
-<h2>@reviews</h2>
+@*<h2>Reviews</h2>
+    <h2>@reviews</h2>*@
 <dd>
     <div class="comments-container">
-        @foreach (var review in Model)
+        @if (Model.Count() != 0)
         {
-            <div class="comment-main-level">
-                <div class="comment-box">
-                    <div class="comment-head">
-                        <h6 class="comment-name by-author"><a>User: @Html.DisplayFor(modelItem => UserManager.FindByIdAsync(review.UserID).Result.Email)</a></h6>
-                        <span>@Html.DisplayFor(modelItem => review.PostedOn) | ocenił(a) ten film na: @Html.DisplayFor(modelItem => review.Rating) <a class="fa fa-star checked"></a> </span>
-                    </div>
-                    <div class="comment-content wrap">
-                        <a>@Html.DisplayFor(modelItem => review.Content)</a>
-
+            @foreach (var review in Model)
+            {
+                <div class="comment-main-level">
+                    <div class="comment-box">
+                        <div class="comment-head">
+                            <h6 class="comment-name by-author"><a>User: @Html.DisplayFor(modelItem => UserManager.FindByIdAsync(review.UserID).Result.Email)</a></h6>
+                            <span>@Html.DisplayFor(modelItem => review.PostedOn) | rating: @Html.DisplayFor(modelItem => review.Rating) <a class="fa fa-star checked"></a> </span>
+                        </div>
+                        <div class="comment-content wrap">
+                            <a>@Html.DisplayFor(modelItem => review.Content)</a>
+                        </div>
                     </div>
                 </div>
+            }
+        }
+        else
+        {
+            <div class="row justify-content-center">
+                <p>No comments yet! Be first!</p>
             </div>
         }
     </div>

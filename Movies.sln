@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Web", "Movies\Movies.Web.csproj", "{D0C80E1B-D07D-49C9-9745-206642CCAB46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Core", "Movies.Domain\Movies.Core.csproj", "{D1169051-6AB5-4BB0-8FB4-C48974734FAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Domain", "Movies.Domain\Movies.Domain.csproj", "{D1169051-6AB5-4BB0-8FB4-C48974734FAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Tests", "Movies.Tests\Movies.Tests.csproj", "{A57C6C5B-DE68-49B2-A77E-5B88860E0AE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Infrastructure", "Movies.Infrastructure\Movies.Infrastructure.csproj", "{CB814502-BC14-49D7-9237-EF1CF76B6746}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Shared", "Movies.Shared\Movies.Shared.csproj", "{63174DFC-3FF5-457B-B05D-D698CCB8D598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Shared", "Movies.Shared\Movies.Shared.csproj", "{63174DFC-3FF5-457B-B05D-D698CCB8D598}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
